@@ -1,6 +1,7 @@
 #include <complex.h>
 #include <tgmath.h>
 #include <stdio.h>
+#include <string.h>
  
 // Defining the size of the screen.
 #define Y 1080
@@ -21,8 +22,10 @@ out_pixel_t Mandle(double _Complex c,
  
     // To eliminate out of bound values.
     if (cabs(t) > 4) {
-        int c = 128 - 128 * cabs(t) / cabs(c);
-        out_pixel_t pixel = {creal(c) * Y / 2 + X / 2, cimag(c) * Y / 2 + Y / 2, {c, c, c}};
+        int color = 128 - 128 * cabs(t) / cabs(c);
+        out_pixel_t pixel = {creal(c) * X / 4 + X / 2,
+                             cimag(c) * Y / 2 + Y / 2,
+                             {color, color, color}};
         return pixel;
     }
  
@@ -32,8 +35,10 @@ out_pixel_t Mandle(double _Complex c,
     // however, higher values cause
     // more processing time.
     if (counter == 100) {
-        int c = 255 * (cabs((t * t)) / cabs((t - c) * c));
-        out_pixel_t pixel = {creal(c) * Y / 2 + X / 2, cimag(c) * Y / 2 + Y / 2, {c, 0, 0}};
+        int color = 255 * (cabs((t * t)) / cabs((t - c) * c));
+        out_pixel_t pixel = {creal(c) * X / 4 + X / 2,
+                             cimag(c) * Y / 2 + Y / 2,
+                             {color, 0, 0}};
         return pixel;
     }
  
@@ -42,26 +47,27 @@ out_pixel_t Mandle(double _Complex c,
     return Mandle(c, cpow(t, 2) + c, counter + 1);
 }
  
-int MandleSet(out_pixel_t* image)
+void MandleSet(int out_image[X][Y][3])
 {
     int count = 0;
+    
     // Calling Mandle function for every
     // point on the screen.
     for (double x = -2; x < 2; x += 0.0015) {
         for (double y = -1; y < 1; y += 0.0015) {
             double _Complex temp = x + y * _Complex_I;
-            image[count] = Mandle(temp, 0, 0);
+            out_pixel_t temp_pixel = Mandle(temp, 0, 0);
+            out_image[temp_pixel.x][temp_pixel.y][0] = temp_pixel.color[0];
+            out_image[temp_pixel.x][temp_pixel.y][1] = temp_pixel.color[1];
+            out_image[temp_pixel.x][temp_pixel.y][2] = temp_pixel.color[2];
             count++;
         }
     }
-    return 0;
 }
  
 int main()
 {
-    int n_generated_pixels = 3557778;
-    out_pixel_t out_image[n_generated_pixels];
-    out_pixel_t* ptr = &out_image[0];
-    MandleSet(ptr);
+    int image[X][Y][3];
+    MandleSet(image);
     return 0;
 }
