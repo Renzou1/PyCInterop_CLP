@@ -92,11 +92,49 @@ void free_image(int*** image){
     free(image);
 }
 
-int main()
-{
+int ***img;
+
+int *e() {
     int*** image = malloc_image();
     MandleSet(image);
+    
+    int* image2 = (int*)malloc(sizeof(int) * 1920 * 1080 * 3);
 
-    free_image(image);
+    for (int i = 0; i < X; i++){
+        for (int j = 0; j < Y; j++){
+            for (int k = 0; k < 3; k++){
+                image2[i * Y * 3 + j * 3 + k] = image[i][j][k];
+            }
+        }
+    }
+
+    return image2;
+}
+
+int r(int x, int y, int z) {
+    return img[x][y][z];
+}
+
+void build_image()
+{
+    int*** image = malloc_image();
+    printf("%d", image[0][0][0]);
+
+
+    MandleSet(image);
+    img = image;
+    for(int i = 0; i < X; i++) {
+        for (int j = 0; i < Y; j++) {
+            for (int k = 0; k < 3; k++) {
+                printf("%d", image[i][j][k]);
+            }
+        }
+    }
+}
+
+
+int main(int argc, char const *argv[])
+{
+    build_image();
     return 0;
 }
