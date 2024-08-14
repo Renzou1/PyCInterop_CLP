@@ -28,6 +28,6 @@ for i in range(im.size[0]): #for every col
         pixels[i, j] = (r, g, b)
         #    a.append()
 
-im.show()
-
+#im.show()
+im.save('mandelbrot.png')
 # print(res[0:50])
