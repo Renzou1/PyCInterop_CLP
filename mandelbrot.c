@@ -35,7 +35,7 @@ pixel_t Mandle(double _Complex c,
     // however, higher values cause
     // more processing time.
     if (counter == 100) {
-        int color = 255 * (cabs((t * t)) / cabs((t - c) * c));
+        int color = 255 * (int)(cabs((t * t)) / cabs((t - c) * c)) % 255;
         pixel_t pixel = {creal(c) * X / 4 + X / 2,
                          cimag(c) * Y / 2 + Y / 2,
                          {color, 0, 0}};

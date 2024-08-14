@@ -29,5 +29,5 @@ for i in range(im.size[0]): #for every col
         #    a.append()
 
 #im.show()
-im.save('mandelbrot.png')
+im.save('mandelbrot2.png')
 # print(res[0:50])
