@@ -78,42 +78,31 @@ int*** malloc_image(){
     return image;
 }
 
-void free_image(int*** image){
+int ***img;
+
+void free_image(){
 
     for(int i = 0; i < X; i++){
         for(int j = 0; j < Y; j++){
-            free(image[i][j]);
+            free(img[i][j]);
         }
     }
     for(int i = 0; i < X; i++){
-        free(image[i]);
+        free(img[i]);
     }
 
-    free(image);
+    free(img);
 }
 
-int ***img;
-
-
-int r(int x, int y, int z) {
+int get_pixel(int x, int y, int z) {
     return img[x][y][z];
 }
 
 void build_image()
 {
     int*** image = malloc_image();
-    //printf("%d", image[0][0][0]);
-
-
     MandleSet(image);
     img = image;
-    //for(int i = 0; i < X; i++) {
-    //    for (int j = 0; j < Y; j++) {
-    //        for (int k = 0; k < 3; k++) {
-    //            printf("%d\n", image[i][j][k]);
-    //        }
-    //    }
-    //}
 }
 
 
