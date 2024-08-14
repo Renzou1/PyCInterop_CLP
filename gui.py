@@ -1,5 +1,6 @@
 from ctypes import *
-
+from PIL import Image, ImageColor
+# requires pip install pillow
 shared_library_path = "./mandelbrot.so"
 
 my_funcs = CDLL(shared_library_path)
@@ -16,11 +17,17 @@ my_funcs.build_image()
 
 # res = [pointer[i] for i in range(1920 * 1080 * 3)]
 # a = []
-for i in range(1920):
-   for j in range(1080):
-       for channel in range(3):
-           print(my_funcs.r(i, j, channel))
+im = Image.new('RGB', (1920, 1080), "black") # starts as a black image
+pixels = im.load() #creates pixel map, whatever that is
+
+for i in range(im.size[0]): #for every col
+   for j in range(im.size[1]): #for every row
+        r = my_funcs.r(i, j, 0)
+        g = my_funcs.r(i, j, 1)
+        b = my_funcs.r(i, j, 2)
+        pixels[i, j] = (r, g, b)
         #    a.append()
 
+im.show()
 
 # print(res[0:50])

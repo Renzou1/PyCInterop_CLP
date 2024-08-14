@@ -22,7 +22,7 @@ pixel_t Mandle(double _Complex c,
  
     // To eliminate out of bound values.
     if (cabs(t) > 4) {
-        int color = 128 - 128 * cabs(t) / cabs(c);
+        int color = - (int)(128 - 128 * cabs(t) / cabs(c)) % 255;
         pixel_t pixel = {creal(c) * X / 4 + X / 2,
                          cimag(c) * Y / 2 + Y / 2,
                          {color, color, color}};
@@ -94,22 +94,6 @@ void free_image(int*** image){
 
 int ***img;
 
-int *e() {
-    int*** image = malloc_image();
-    MandleSet(image);
-    
-    int* image2 = (int*)malloc(sizeof(int) * 1920 * 1080 * 3);
-
-    for (int i = 0; i < X; i++){
-        for (int j = 0; j < Y; j++){
-            for (int k = 0; k < 3; k++){
-                image2[i * Y * 3 + j * 3 + k] = image[i][j][k];
-            }
-        }
-    }
-
-    return image2;
-}
 
 int r(int x, int y, int z) {
     return img[x][y][z];
@@ -118,18 +102,18 @@ int r(int x, int y, int z) {
 void build_image()
 {
     int*** image = malloc_image();
-    printf("%d", image[0][0][0]);
+    //printf("%d", image[0][0][0]);
 
 
     MandleSet(image);
     img = image;
-    for(int i = 0; i < X; i++) {
-        for (int j = 0; i < Y; j++) {
-            for (int k = 0; k < 3; k++) {
-                printf("%d", image[i][j][k]);
-            }
-        }
-    }
+    //for(int i = 0; i < X; i++) {
+    //    for (int j = 0; j < Y; j++) {
+    //        for (int k = 0; k < 3; k++) {
+    //            printf("%d\n", image[i][j][k]);
+    //        }
+    //    }
+    //}
 }
 
 
