@@ -1,7 +1,11 @@
 from ctypes import *
-from PIL import Image, ImageColor
+from PIL import Image, ImageTk
+import tkinter as tk
+
 # requires pip install pillow
 shared_library_path = "./mandelbrot.so"
+
+print("Carregando...")
 
 my_funcs = CDLL(shared_library_path)
 
@@ -17,5 +21,19 @@ for i in range(im.size[0]): #for every col
         b = my_funcs.get_pixel(i, j, 2)
         pixels[i, j] = (r, g, b)
 
-im.save('mandelbrot2.png')
+im.save('mandelbrot.png')
 my_funcs.free_image()
+
+root = tk.Tk()
+root.title("Mandelbrot")
+
+image = ImageTk.PhotoImage(im)
+image_label = tk.Label(root, image=image)
+
+def on_button_click():
+        image_label.pack()
+
+button = tk.Button(root, text="Gerar Imagem", command=on_button_click)
+button.pack()
+
+root.mainloop()
